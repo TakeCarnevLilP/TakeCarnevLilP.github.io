@@ -1,156 +1,164 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Bouncing Box</title>
-    <script src="jquery.min.js"></script>
-    <style>
-      .box {
-        width: 70px;
-        height: 70px;
-        background-image: url("ChillBillBox.png");
-        font-size: 300%;
-        text-align: center;
-        user-select: none;
-        display: block;
-        position: absolute;
-        top: 100px;
-        left: 0px;
+
+<head>
+  <meta charset="utf-8" />
+  <title>Bouncing Box</title>
+  <script src="jquery.min.js"></script>
+  <style>
+    .box {
+      width: 70px;
+      height: 70px;
+      background-image: url("ChillBillBox.png");
+      font-size: 300%;
+      text-align: center;
+      user-select: none;
+      display: block;
+      position: absolute;
+      top: 100px;
+      left: 0px;
+    }
+
+    .board {
+      height: 100vh;
+    }
+  </style>
+  <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+</head>
+
+<body class="board">
+  <!-- HTML for the box -->
+  <div class="box">?</div>
+  <audio autoplay src="ChillBill.mp3">
+    <source type="audio/mpeg">
+  </audio>
+
+  <script>
+    (function () {
+      "use strict";
+      /* global jQuery */
+
+      //////////////////////////////////////////////////////////////////
+      /////////////////// SETUP DO NOT DELETE //////////////////////////
+      //////////////////////////////////////////////////////////////////
+
+      var box = jQuery(".box"); // reference to the HTML .box element
+      var board = jQuery(".board"); // reference to the HTML .board element
+      var boardWidth = board.width(); // the maximum X-Coordinate of the screen
+
+      // update the boardWidth variable when the window is resized
+      jQuery(window).on("resize", function () {
+        boardWidth = board.width();
+      });
+
+      // Every 50 milliseconds, call the update Function (see below)
+      var interval = setInterval(update, 50);
+
+      // Every time the box is clicked, call the handleBoxClick Function (see below)
+      box.on("click", handleBoxClick);
+      board.on("click", handleBoardClick)
+
+      // moves the Box to a new position on the screen along the X-Axis
+      function moveBoxTo(newPositionX, newPositionY) {
+        box.css("left", newPositionX);
+        box.css("top", newPositionY);
       }
 
-      .board {
-        height: 100vh;
+      // changes the text displayed on the Box
+      function changeBoxText(newText) {
+        box.text(newText);
       }
-    </style>
-    <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-  </head>
 
-  <body class="board">
-    <!-- HTML for the box -->
-    <div class="box">?</div>
+      //////////////////////////////////////////////////////////////////
+      /////////////////// YOUR CODE BELOW HERE /////////////////////////
+      //////////////////////////////////////////////////////////////////
 
-    <script>
-      (function () {
-        "use strict";
-        /* global jQuery */
+      // TODO 2 - Variable declarations
+      var randNum = Math.random() * boardWidth;
+      var randNumY = Math.random() * boardHeight;
+      var positionX = 0
+      var points = 0
+      var misses = 0
+      var speed = 0
+      var positionY = 0;
+      var speedY = 0;
+      var boardHeight = jQuery(window).height();
+      var gameOn = 1
+      var chillsBillAudio = new Audio("ChillsBill.mp3");
 
-        //////////////////////////////////////////////////////////////////
-        /////////////////// SETUP DO NOT DELETE //////////////////////////
-        //////////////////////////////////////////////////////////////////
 
-        var box = jQuery(".box"); // reference to the HTML .box element
-        var board = jQuery(".board"); // reference to the HTML .board element
-        var boardWidth = board.width(); // the maximum X-Coordinate of the screen
 
-        // update the boardWidth variable when the window is resized
-        jQuery(window).on("resize", function () {
-          boardWidth = board.width();
-        });
 
-        // Every 50 milliseconds, call the update Function (see below)
-        var interval = setInterval(update, 50);
 
-        // Every time the box is clicked, call the handleBoxClick Function (see below)
-        box.on("click", handleBoxClick);
-        board.on("click", handleBoardClick)
 
-        // moves the Box to a new position on the screen along the X-Axis
-        function moveBoxTo(newPositionX, newPositionY) {
-          box.css("left", newPositionX);
-          box.css("top", newPositionY);
+      /**
+       * This Function will be called 20 times/second.
+       * Each time it is called, it should move the Box to a new location.
+       * If the box drifts off the screen, turn it around!
+       */
+      function update() {
+        positionY += speedY;
+        positionX += speed;
+        moveBoxTo(positionX, positionY)
+        if (positionX >= boardWidth) {
+          speed *= -1;
         }
 
-        // changes the text displayed on the Box
-        function changeBoxText(newText) {
-          box.text(newText);
+        if (positionY >= boardHeight) {
+          speedY *= -1;
         }
-
-        //////////////////////////////////////////////////////////////////
-        /////////////////// YOUR CODE BELOW HERE /////////////////////////
-        //////////////////////////////////////////////////////////////////
-
-        // TODO 2 - Variable declarations
-        var randNum = Math.random() * boardWidth;
-        var randNumY = Math.random() * boardHeight;
-        var positionX = 0
-        var points = 0
-        var misses = 0
-        var speed = 0
-        var positionY = 0;
-        var speedY = 0;
-        var boardHeight = jQuery(window).height();
-        var gameOn = 1
-
-
-
-
-
-
-        /**
-         * This Function will be called 20 times/second.
-         * Each time it is called, it should move the Box to a new location.
-         * If the box drifts off the screen, turn it around!
-         */
-        function update() {
-          positionY += speedY;
-          positionX += speed;
-          moveBoxTo(positionX, positionY)
-          if (positionX >= boardWidth) {
-            speed *= -1;
-          }
-
-          if (positionY >= boardHeight) {
-            speedY *= -1;
-          }
 
         if (positionX < 0) {
           speed *= -1;
         }
 
         if (positionY < 0) {
-            speedY *= -1;
-          }
-          
+          speedY *= -1;
         }
 
-        /**
-         * This Function will be called each time the box is clicked.
-         * Each time it is called, it should perform each of the following actions:
-         * - increase the points total
-         * - increase the speed
-         * - move the box to the left side of the screen.
-         */
-        function handleBoxClick() {
-          randNum = Math.random() * boardWidth;
-          randNumY = Math.random() * boardHeight;
-          positionX = randNum
-          positionY = randNumY
-          changeBoxText(points)
-          points += gameOn
-          speed = 3 * points + 10;
-          speedY = 3 * points + 10;
-          misses = 0
-          
+      }
+
+      /**
+       * This Function will be called each time the box is clicked.
+       * Each time it is called, it should perform each of the following actions:
+       * - increase the points total
+       * - increase the speed
+       * - move the box to the left side of the screen.
+       */
+      function handleBoxClick() {
+        randNum = Math.random() * boardWidth;
+        randNumY = Math.random() * boardHeight;
+        positionX = randNum
+        positionY = randNumY
+        changeBoxText(points)
+        points += gameOn
+        speed = 3 * points + 10;
+        speedY = 3 * points + 10;
+        misses = 0
+
+      }
+
+      function handleBoardClick() {
+        chillsBillAudio.currentTime = 0;
+        chillsBillAudio.play();
+        misses += 1
+        if (misses >= 10) {
+          endGame()
+          gameOn = 0
         }
 
-        function handleBoardClick() {
-          misses += 1
-          if (misses >= 10) {
-            endGame()
-            gameOn = 0
-          }
+      }
 
-        }
-
-        function endGame() {
-          clearInterval(interval);
-        }
-
-        
+      function endGame() {
+        clearInterval(interval);
+      }
 
 
-        
-      })();
-    </script>
-  </body>
+
+
+
+    })();
+  </script>
+</body>
+
 </html>
