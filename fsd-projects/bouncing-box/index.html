@@ -21,6 +21,7 @@
 
     .board {
       height: 100vh;
+      background-color: aqua;
     }
   </style>
   <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -126,6 +127,8 @@
        * - move the box to the left side of the screen.
        */
       function handleBoxClick() {
+        chillsBillAudio.currentTime = 0;
+        chillsBillAudio.play();
         randNum = Math.random() * boardWidth;
         randNumY = Math.random() * boardHeight;
         positionX = randNum
@@ -139,8 +142,7 @@
       }
 
       function handleBoardClick() {
-        chillsBillAudio.currentTime = 0;
-        chillsBillAudio.play();
+        
         misses += 1
         if (misses >= 10) {
           endGame()

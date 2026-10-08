@@ -219,8 +219,3 @@ nav h1 {
 #portfolio a:hover::after {
   opacity: 1;
 }
-
-#TestingStyle {
-  color: #e4c334;
-  
-}
