@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<style>
+#explanation {
+  display: none;
+}
+
+#entrance {
+  display: none;
+}
+
+#L {
+  display: none;
+  justify-self: center;
+}
+
+#R {
+  display: none;
+  justify-self: center;
+}
+
+#skeletonEncounter {
+  display: none;
+}
+
+#skeletonIntro {
+  display: none;
+  justify-self: center;
+  color: orange;
+}
+
+#Madskelly {
+  width: 300px;
+  position: relative;
+  justify-self: center;
+  display: none;
+  animation-name: Skeletonentrance;
+  animation-duration: 10s;
+}
+
+#battleSkelly {
+  width: 300px;
+  position: relative;
+  justify-self: center;
+  display: none;
+}
+
+@keyframes Skeletonentrance {
+  from {top: 600px;}
+  to {top: 0px;}
+}
+</style>
+
+<body>
+  <t id="welcomeMessage">!</t>
+  <t id="explanation">This is a small quest. Simply navigate this dungeon I have laid out for you! If you win, you get to see my cat in a sombrero!</t>
+  <h2 id="entrance">Youre standing at the entrance of a dungeon, due to needing funds and the quest being a well paid endeavor. You decided to take it up. As you enter the large stone doors of the dungeon, the entrance seals behind you. Youre stuck. Theres two halls on either side of you, which do you take?</h2>
+  <h2 id="skeletonEncounter">During your walk down the right corridor... two large metal gates fall at the entrance and end of the hallway! Then, from a trapdoor in the ceiling, a skeleton falls! Time for a tussle!</h2>
+  <h1 id="skeletonIntro">A Rattler shakes his bones!</h1>
+  <div></div>
+  <img src="RPGassets/Madskeleton.jpeg" id="Madskelly">
+  <img src="RPGassets/SkeletonFight.jpeg" id="battleSkelly">
+  <button id="L">Left?</button> <button id="R">Right?</button>
+ <button id="nextButton">Next</button>
+</body>
+
+ <script>
+//--------------------------------------------------
+//Var declarations
+var yourWelcomeMessage = nameDeclaration(prompt("What is your name?"))
+var monologuePart = 0
+var directionChosen
+
+//--------------------------------------------------
+//functions
+  function nameDeclaration (name) {
+  var welcomeMessage = "Hello " + name + "! Welcome to this little test of html and java. To continue, please click the button!"
+  return welcomeMessage
+}
+
+  function introMonologue() {
+    if (monologuePart === 0) {
+      document.getElementById("welcomeMessage").style.display = "none";
+      document.getElementById("explanation").style.display = "block";
+      monologuePart += 1
+    }
+
+    else if (monologuePart === 1) {
+      document.getElementById("explanation").style.display = "none";
+      document.getElementById("nextButton").style.display = "none";
+      document.getElementById("entrance").style.display = "block";
+      document.getElementById("L").style.display = "block";
+      document.getElementById("R").style.display = "block";
+    }
+  }
+
+  function puzzle() {
+
+  }
+
+  function battle() {
+    document.getElementById("skeletonEncounter").style.display = "block";
+    document.getElementById("entrance").style.display = "none";
+    document.getElementById("L").style.display = "none";
+    document.getElementById("R").style.display = "none";
+    setTimeout(() => {
+      document.getElementById("skeletonEncounter").style.display = "none";
+      document.getElementById("skeletonIntro").style.display = "block";
+      document.getElementById("Madskelly").style.display = "block";}, 5000)
+    setTimeout(() => {
+      document.getElementById("Madskelly").style.display = "none";
+      document.getElementById("battleSkelly").style.display = "block";}, 10000)
+    
+  }
+
+document.getElementById("welcomeMessage").innerHTML = yourWelcomeMessage
+document.getElementById("nextButton").addEventListener("click", introMonologue);
+document.getElementById("L").addEventListener("click", puzzle);
+document.getElementById("R").addEventListener("click", battle);
+
+
+//--------------------------------------------------
+ </script>
+
+
+</html>
