@@ -49,11 +49,20 @@
   position: relative;
   justify-self: center;
   display: none;
+  animation-name: skeletonIdle;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
 
 @keyframes Skeletonentrance {
   from {top: 600px;}
   to {top: 0px;}
+}
+
+@keyframes skeletonIdle {
+  0% {width: 200px; height: 400px;}
+  50% {width: 400px; height: 200px;}
+  100% {width: 200px; height: 400px;}
 }
 </style>
 
@@ -80,7 +89,7 @@ var directionChosen
 //--------------------------------------------------
 //functions
   function nameDeclaration (name) {
-  var welcomeMessage = "Hello " + name + "! Welcome to this little test of html and java. To continue, please click the button!"
+  var welcomeMessage = "Hello " + name + "! Welcome to this little test of html, CSS, and java. To continue, please click the button!"
   return welcomeMessage
 }
 
